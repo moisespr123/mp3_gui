@@ -1,5 +1,7 @@
 ﻿Public Class Form1
     Private Extensions As New List(Of String) From {".aiff", ".ape", ".flac", ".m4a", ".mp3", ".ogg", ".opus", ".wav"}
+    Private hasmp3lame As Boolean = False
+    Private haslibshine As Boolean = False
     Private Sub InputBrowseBtn_Click(sender As Object, e As EventArgs) Handles InputBrowseBtn.Click
         Dim InputBrowser As New FolderBrowserDialog With {
             .ShowNewFolderButton = False
@@ -37,6 +39,8 @@
         BitrateNumberBox.Enabled = False
         enableMultithreading.Enabled = False
         overwrite.Enabled = False
+        mp3encoders.Enabled = False
+        libmp3lameOptions.Enabled = False
         Dim StartTasks As New Threading.Thread(Sub() StartThreads())
         StartTasks.Start()
     End Sub
@@ -104,6 +108,8 @@
                                  overwrite.Enabled = True
                                  InputTxt.Enabled = True
                                  OutputTxt.Enabled = True
+                                 mp3encoders.Enabled = True
+                                 libmp3lameOptions.Enabled = True
                                  InputBrowseBtn.Enabled = True
                                  OutputBrowseBtn.Enabled = True
                              End Sub)
@@ -142,16 +148,17 @@
         Try
             GetffmpegVersion()
         Catch
-            MessageBox.Show("ffmpeg.exe was not found. Exiting...")
+            MessageBox.Show("ffmpeg.exe was not found. Please download ffmpeg.")
+            Process.Start("https://moisescardona.me/downloading-ffmpeg-for-use-with-my-media-tools-updated-guide/")
             Me.Close()
         End Try
-        If libmp3lame.Enabled Then
+        If hasmp3lame Then
             If My.Settings.libmp3lame Then
                 libmp3lame.Checked = True
             Else
                 libshine.Checked = True
             End If
-        ElseIf libshine.Enabled Then
+        ElseIf haslibshine Then
             If My.Settings.libshine Then
                 libshine.Checked = True
             Else
@@ -179,9 +186,11 @@
             Dim line As String = ffmpegProcess.StandardOutput.ReadLine
             If line.Contains("--enable-libmp3lame") Then
                 libmp3lame.Enabled = True
+                hasmp3lame = True
             End If
             If line.Contains("--enable-libshine") Then
                 libshine.Enabled = True
+                haslibshine = True
             End If
         End While
     End Sub
@@ -239,18 +248,8 @@
 
     Private Sub libmp3lame_CheckedChanged(sender As Object, e As EventArgs) Handles libmp3lame.CheckedChanged
         My.Settings.libmp3lame = libmp3lame.Checked
+        libmp3lameOptions.Enabled = libmp3lame.Checked
         My.Settings.Save()
-        If libmp3lame.Checked Then
-            useVBR.Enabled = True
-            If useVBR.Checked Then
-                q.Enabled = True
-                compression_level.Enabled = True
-            End If
-        Else
-            useVBR.Enabled = False
-            q.Enabled = False
-            compression_level.Enabled = False
-        End If
     End Sub
 
     Private Sub libshine_CheckedChanged(sender As Object, e As EventArgs) Handles libshine.CheckedChanged

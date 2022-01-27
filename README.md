@@ -1,10 +1,13 @@
 # mp3_gui
-A GUI to encode music files to MP3.
+A GUI to encode music files to MP3
 
-You need ffmpeg copied to the location where you have this software.
+![v1.0 Screenshot](https://moisescardona.me/wp-content/uploads/2022/01/MP3-GUI-v1.0.png)
 
-Written in Visual Basic .NET using Visual Studio 2017.
+You need ffmpeg copied to the location where you have this software or added to the system PATH variable.
 
-Based on the opus_gui FUI that I also wrote
+Ffmpeg needs to be compiled with support for either libshine or libmp3lame. Both are preferred to enable both GUI encoder options.
+
+[MP3 GUI Guide/Help](https://moisescardona.me/mp3-gui-help/)
+
 
 Enjoy!

@@ -37,10 +37,10 @@ Partial Class Form1
         Me.ffmpegVersionLabel = New System.Windows.Forms.Label()
         Me.BitrateNumberBox = New System.Windows.Forms.NumericUpDown()
         Me.enableMultithreading = New System.Windows.Forms.CheckBox()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.mp3encoders = New System.Windows.Forms.GroupBox()
         Me.libshine = New System.Windows.Forms.RadioButton()
         Me.libmp3lame = New System.Windows.Forms.RadioButton()
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.libmp3lameOptions = New System.Windows.Forms.GroupBox()
         Me.Help = New System.Windows.Forms.LinkLabel()
         Me.compression_level = New System.Windows.Forms.NumericUpDown()
         Me.Label8 = New System.Windows.Forms.Label()
@@ -49,8 +49,8 @@ Partial Class Form1
         Me.Label7 = New System.Windows.Forms.Label()
         Me.overwrite = New System.Windows.Forms.CheckBox()
         CType(Me.BitrateNumberBox, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox1.SuspendLayout()
-        Me.GroupBox2.SuspendLayout()
+        Me.mp3encoders.SuspendLayout()
+        Me.libmp3lameOptions.SuspendLayout()
         CType(Me.compression_level, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.q, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -195,18 +195,18 @@ Partial Class Form1
         Me.enableMultithreading.Text = "Use Multi-Threading"
         Me.enableMultithreading.UseVisualStyleBackColor = True
         '
-        'GroupBox1
+        'mp3encoders
         '
-        Me.GroupBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.mp3encoders.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox1.Controls.Add(Me.libshine)
-        Me.GroupBox1.Controls.Add(Me.libmp3lame)
-        Me.GroupBox1.Location = New System.Drawing.Point(15, 94)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(263, 65)
-        Me.GroupBox1.TabIndex = 17
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "MP3 Encoder Library"
+        Me.mp3encoders.Controls.Add(Me.libshine)
+        Me.mp3encoders.Controls.Add(Me.libmp3lame)
+        Me.mp3encoders.Location = New System.Drawing.Point(15, 94)
+        Me.mp3encoders.Name = "mp3encoders"
+        Me.mp3encoders.Size = New System.Drawing.Size(263, 65)
+        Me.mp3encoders.TabIndex = 17
+        Me.mp3encoders.TabStop = False
+        Me.mp3encoders.Text = "MP3 Encoder Library"
         '
         'libshine
         '
@@ -232,21 +232,21 @@ Partial Class Form1
         Me.libmp3lame.Text = "libmp3lame (Best)"
         Me.libmp3lame.UseVisualStyleBackColor = True
         '
-        'GroupBox2
+        'libmp3lameOptions
         '
-        Me.GroupBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox2.Controls.Add(Me.Help)
-        Me.GroupBox2.Controls.Add(Me.compression_level)
-        Me.GroupBox2.Controls.Add(Me.Label8)
-        Me.GroupBox2.Controls.Add(Me.q)
-        Me.GroupBox2.Controls.Add(Me.useVBR)
-        Me.GroupBox2.Controls.Add(Me.Label7)
-        Me.GroupBox2.Location = New System.Drawing.Point(294, 97)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(204, 110)
-        Me.GroupBox2.TabIndex = 18
-        Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "libmp3lame options"
+        Me.libmp3lameOptions.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.libmp3lameOptions.Controls.Add(Me.Help)
+        Me.libmp3lameOptions.Controls.Add(Me.compression_level)
+        Me.libmp3lameOptions.Controls.Add(Me.Label8)
+        Me.libmp3lameOptions.Controls.Add(Me.q)
+        Me.libmp3lameOptions.Controls.Add(Me.useVBR)
+        Me.libmp3lameOptions.Controls.Add(Me.Label7)
+        Me.libmp3lameOptions.Location = New System.Drawing.Point(294, 97)
+        Me.libmp3lameOptions.Name = "libmp3lameOptions"
+        Me.libmp3lameOptions.Size = New System.Drawing.Size(204, 110)
+        Me.libmp3lameOptions.TabIndex = 18
+        Me.libmp3lameOptions.TabStop = False
+        Me.libmp3lameOptions.Text = "libmp3lame options"
         '
         'Help
         '
@@ -260,7 +260,6 @@ Partial Class Form1
         '
         'compression_level
         '
-        Me.compression_level.Enabled = False
         Me.compression_level.Location = New System.Drawing.Point(108, 70)
         Me.compression_level.Name = "compression_level"
         Me.compression_level.Size = New System.Drawing.Size(53, 20)
@@ -277,7 +276,6 @@ Partial Class Form1
         '
         'q
         '
-        Me.q.Enabled = False
         Me.q.Location = New System.Drawing.Point(108, 42)
         Me.q.Name = "q"
         Me.q.Size = New System.Drawing.Size(53, 20)
@@ -286,7 +284,6 @@ Partial Class Form1
         'useVBR
         '
         Me.useVBR.AutoSize = True
-        Me.useVBR.Enabled = False
         Me.useVBR.Location = New System.Drawing.Point(6, 19)
         Me.useVBR.Name = "useVBR"
         Me.useVBR.Size = New System.Drawing.Size(119, 17)
@@ -319,8 +316,8 @@ Partial Class Form1
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(523, 358)
         Me.Controls.Add(Me.overwrite)
-        Me.Controls.Add(Me.GroupBox2)
-        Me.Controls.Add(Me.GroupBox1)
+        Me.Controls.Add(Me.libmp3lameOptions)
+        Me.Controls.Add(Me.mp3encoders)
         Me.Controls.Add(Me.enableMultithreading)
         Me.Controls.Add(Me.BitrateNumberBox)
         Me.Controls.Add(Me.ffmpegVersionLabel)
@@ -340,10 +337,10 @@ Partial Class Form1
         Me.Name = "Form1"
         Me.Text = "MP3 GUI"
         CType(Me.BitrateNumberBox, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
-        Me.GroupBox2.ResumeLayout(False)
-        Me.GroupBox2.PerformLayout()
+        Me.mp3encoders.ResumeLayout(False)
+        Me.mp3encoders.PerformLayout()
+        Me.libmp3lameOptions.ResumeLayout(False)
+        Me.libmp3lameOptions.PerformLayout()
         CType(Me.compression_level, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.q, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -366,10 +363,10 @@ End Sub
     Friend WithEvents ffmpegVersionLabel As Label
     Friend WithEvents BitrateNumberBox As NumericUpDown
     Friend WithEvents enableMultithreading As CheckBox
-    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents mp3encoders As GroupBox
     Friend WithEvents libshine As RadioButton
     Friend WithEvents libmp3lame As RadioButton
-    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents libmp3lameOptions As GroupBox
     Friend WithEvents compression_level As NumericUpDown
     Friend WithEvents Label8 As Label
     Friend WithEvents q As NumericUpDown
