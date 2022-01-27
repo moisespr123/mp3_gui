@@ -21,6 +21,14 @@
     End Sub
 
     Private Sub StartBtn_Click(sender As Object, e As EventArgs) Handles StartBtn.Click
+        If String.IsNullOrEmpty(InputTxt.Text) Then
+            MessageBox.Show("The input path is empty.")
+            Return
+        End If
+        If String.IsNullOrEmpty(OutputTxt.Text) Then
+            MessageBox.Show("The output path is empty.")
+            Return
+        End If
         StartBtn.Enabled = False
         InputTxt.Enabled = False
         OutputTxt.Enabled = False
@@ -28,22 +36,36 @@
         OutputBrowseBtn.Enabled = False
         BitrateNumberBox.Enabled = False
         enableMultithreading.Enabled = False
+        overwrite.Enabled = False
         Dim StartTasks As New Threading.Thread(Sub() StartThreads())
         StartTasks.Start()
     End Sub
+
+    Private Function Log(item As String, Optional action As Integer = 3) As String
+        Dim logLine As String = Now.ToString() + " || " + IO.Path.GetFileName(item)
+        If action = 1 Then
+            Return logLine + " encoded."
+        ElseIf action = 2 Then
+            Return logLine + " copied."
+        Else
+            Return logLine + " already exist. Not overwriting."
+        End If
+    End Function
     Private Sub StartThreads()
-        If Not String.IsNullOrEmpty(OutputTxt.Text) Then If Not My.Computer.FileSystem.DirectoryExists(OutputTxt.Text) Then My.Computer.FileSystem.CreateDirectory(OutputTxt.Text)
+        Dim logItems As New List(Of String)
+        If Not IO.Directory.Exists(OutputTxt.Text) Then IO.Directory.CreateDirectory(OutputTxt.Text)
         Dim ItemsToProcess As List(Of String) = New List(Of String)
         Dim IgnoreFilesWithExtensions As String = String.Empty
-        If My.Computer.FileSystem.FileExists("ignore.txt") Then IgnoreFilesWithExtensions = My.Computer.FileSystem.ReadAllText("ignore.txt")
+        If IO.File.Exists("ignore.txt") Then IgnoreFilesWithExtensions = My.Computer.FileSystem.ReadAllText("ignore.txt")
         For Each File In IO.Directory.GetFiles(InputTxt.Text)
             If Extensions.Contains(IO.Path.GetExtension(File)) Then
                 ItemsToProcess.Add(File)
             Else
-                If Not String.IsNullOrEmpty(OutputTxt.Text) Then
-                    If Not My.Computer.FileSystem.FileExists(OutputTxt.Text + "\" + My.Computer.FileSystem.GetName(File)) Then
-                        If Not IgnoreFilesWithExtensions.Contains(IO.Path.GetExtension(File)) Then My.Computer.FileSystem.CopyFile(File, OutputTxt.Text + "\" + My.Computer.FileSystem.GetName(File))
-                    End If
+                If Not IO.File.Exists(OutputTxt.Text + "\" + IO.Path.GetFileName(File)) Or overwrite.Checked Then
+                    If Not IgnoreFilesWithExtensions.Contains(IO.Path.GetExtension(File)) Then IO.File.Copy(File, OutputTxt.Text + "\" + My.Computer.FileSystem.GetName(File), True)
+                    logItems.Add(Log(File, 2))
+                Else
+                    logItems.Add(Log(File))
                 End If
             End If
         Next
@@ -56,32 +78,37 @@
         Dim outputPath As String = ""
         If enableMultithreading.Checked Then
             For Counter As Integer = 0 To ItemsToProcess.Count - 1
-                If Not String.IsNullOrEmpty(OutputTxt.Text) Then
-                    outputPath = OutputTxt.Text + "\" + IO.Path.GetFileNameWithoutExtension(ItemsToProcess(Counter)) + ".mp3"
+                outputPath = OutputTxt.Text + "\" + IO.Path.GetFileNameWithoutExtension(ItemsToProcess(Counter)) + ".mp3"
+                If Not IO.File.Exists(outputPath) Or overwrite.Checked Then
+                    Dim args As Array = {ItemsToProcess(Counter), outputPath, My.Settings.Bitrate}
+                    tasks.Add(Sub() logItems.Add(run_ffmpeg(args)))
+                Else
+                    logItems.Add(Log(IO.Path.GetFileName(ItemsToProcess(Counter))))
                 End If
-                Dim args As Array = {ItemsToProcess(Counter), outputPath, My.Settings.Bitrate}
-                tasks.Add(Function() run_ffmpeg(args))
             Next
             Parallel.Invoke(New ParallelOptions With {.MaxDegreeOfParallelism = Environment.ProcessorCount}, tasks.ToArray())
         Else
             For Counter As Integer = 0 To ItemsToProcess.Count - 1
-                If Not String.IsNullOrEmpty(OutputTxt.Text) Then
-                    outputPath = OutputTxt.Text + "\" + IO.Path.GetFileNameWithoutExtension(ItemsToProcess(Counter)) + ".mp3"
+                outputPath = OutputTxt.Text + "\" + IO.Path.GetFileNameWithoutExtension(ItemsToProcess(Counter)) + ".mp3"
+                If Not IO.File.Exists(outputPath) Or overwrite.Checked Then
+                    logItems.Add(run_ffmpeg({ItemsToProcess(Counter), outputPath, My.Settings.Bitrate}))
+                Else
+                    logItems.Add(Log(IO.Path.GetFileName(ItemsToProcess(Counter))))
                 End If
-                Dim args As Array = {ItemsToProcess(Counter), outputPath, My.Settings.Bitrate}
-                run_ffmpeg(args)
             Next
         End If
         StartBtn.BeginInvoke(Sub()
                                  StartBtn.Enabled = True
                                  BitrateNumberBox.Enabled = True
                                  enableMultithreading.Enabled = True
+                                 overwrite.Enabled = True
                                  InputTxt.Enabled = True
                                  OutputTxt.Enabled = True
                                  InputBrowseBtn.Enabled = True
                                  OutputBrowseBtn.Enabled = True
                              End Sub)
-        MsgBox("Finished")
+        ResultsForm.ListBox1.DataSource = logItems
+        ResultsForm.ShowDialog()
     End Sub
     Private Function run_ffmpeg(args As Array)
         Dim Input_File As String = args(0)
@@ -91,12 +118,12 @@
         Dim ffmpegProcess As Process
         ffmpegProcessInfo.FileName = "ffmpeg.exe"
         If My.Settings.libshine Then
-            ffmpegProcessInfo.Arguments = "-i """ + Input_File + """ -c:a libshine -b:a " & Bitrate & "K  """ + Output_File + """"
+            ffmpegProcessInfo.Arguments = "-i """ + Input_File + """ -c:a libshine -b:a " & Bitrate & "K  """ + Output_File + """ -y"
         ElseIf My.Settings.libmp3lame Then
             If Not My.Settings.useVBR Then
-                ffmpegProcessInfo.Arguments = "-i """ + Input_File + """ -c:a libmp3lame -b:a " & Bitrate & "K  """ + Output_File + """"
+                ffmpegProcessInfo.Arguments = "-i """ + Input_File + """ -c:a libmp3lame -b:a " & Bitrate & "K  """ + Output_File + """ -y"
             Else
-                ffmpegProcessInfo.Arguments = "-i """ + Input_File + """ -c:a libmp3lame -q " & My.Settings.q.ToString() & " -compression_level " & My.Settings.compression_level.ToString() & " """ + Output_File + """"
+                ffmpegProcessInfo.Arguments = "-i """ + Input_File + """ -c:a libmp3lame -q " & My.Settings.q.ToString() & " -compression_level " & My.Settings.compression_level.ToString() & " """ + Output_File + """ -y"
             End If
         End If
         ffmpegProcessInfo.CreateNoWindow = True
@@ -105,12 +132,13 @@
         ffmpegProcess = Process.Start(ffmpegProcessInfo)
         ffmpegProcess.WaitForExit()
         ProgressBar1.BeginInvoke(Sub() ProgressBar1.PerformStep())
-        Return True
+        Return Log(IO.Path.GetFileName(Output_File), 1)
     End Function
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         BitrateNumberBox.Value = My.Settings.Bitrate
         enableMultithreading.Checked = My.Settings.Multithreading
+        overwrite.Checked = My.Settings.overwrite
         Try
             GetffmpegVersion()
         Catch
@@ -156,6 +184,15 @@
                 libshine.Enabled = True
             End If
         End While
+    End Sub
+
+    Private Sub Form1_DragEnter(sender As Object, e As DragEventArgs) Handles MyBase.DragEnter
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+            e.Effect = DragDropEffects.Copy
+        End If
+    End Sub
+    Private Sub Form1_DragDrop(sender As Object, e As DragEventArgs) Handles MyBase.DragDrop
+        InputTxt.Text = CType(e.Data.GetData(DataFormats.FileDrop), String())(0)
     End Sub
 
     Private Sub NumericUpDown1_ValueChanged(sender As Object, e As EventArgs) Handles BitrateNumberBox.ValueChanged
@@ -220,4 +257,14 @@
         My.Settings.libshine = libshine.Checked
         My.Settings.Save()
     End Sub
+
+    Private Sub overwrite_CheckedChanged(sender As Object, e As EventArgs) Handles overwrite.CheckedChanged
+        My.Settings.overwrite = overwrite.Checked
+        My.Settings.Save()
+    End Sub
+
+    Private Sub Help_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles Help.LinkClicked
+        Process.Start("https://moisescardona.me/mp3-gui-help/")
+    End Sub
+
 End Class

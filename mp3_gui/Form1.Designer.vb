@@ -41,11 +41,13 @@ Partial Class Form1
         Me.libshine = New System.Windows.Forms.RadioButton()
         Me.libmp3lame = New System.Windows.Forms.RadioButton()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.Help = New System.Windows.Forms.LinkLabel()
         Me.compression_level = New System.Windows.Forms.NumericUpDown()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.q = New System.Windows.Forms.NumericUpDown()
         Me.useVBR = New System.Windows.Forms.CheckBox()
         Me.Label7 = New System.Windows.Forms.Label()
+        Me.overwrite = New System.Windows.Forms.CheckBox()
         CType(Me.BitrateNumberBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -77,7 +79,7 @@ Partial Class Form1
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.InputTxt.Location = New System.Drawing.Point(15, 26)
         Me.InputTxt.Name = "InputTxt"
-        Me.InputTxt.Size = New System.Drawing.Size(391, 20)
+        Me.InputTxt.Size = New System.Drawing.Size(415, 20)
         Me.InputTxt.TabIndex = 2
         '
         'OutputTxt
@@ -86,7 +88,7 @@ Partial Class Form1
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OutputTxt.Location = New System.Drawing.Point(15, 68)
         Me.OutputTxt.Name = "OutputTxt"
-        Me.OutputTxt.Size = New System.Drawing.Size(391, 20)
+        Me.OutputTxt.Size = New System.Drawing.Size(415, 20)
         Me.OutputTxt.TabIndex = 3
         '
         'Label3
@@ -101,7 +103,7 @@ Partial Class Form1
         'InputBrowseBtn
         '
         Me.InputBrowseBtn.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.InputBrowseBtn.Location = New System.Drawing.Point(412, 24)
+        Me.InputBrowseBtn.Location = New System.Drawing.Point(436, 24)
         Me.InputBrowseBtn.Name = "InputBrowseBtn"
         Me.InputBrowseBtn.Size = New System.Drawing.Size(75, 23)
         Me.InputBrowseBtn.TabIndex = 5
@@ -111,7 +113,7 @@ Partial Class Form1
         'OutputBrowseBtn
         '
         Me.OutputBrowseBtn.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OutputBrowseBtn.Location = New System.Drawing.Point(412, 68)
+        Me.OutputBrowseBtn.Location = New System.Drawing.Point(436, 68)
         Me.OutputBrowseBtn.Name = "OutputBrowseBtn"
         Me.OutputBrowseBtn.Size = New System.Drawing.Size(75, 23)
         Me.OutputBrowseBtn.TabIndex = 6
@@ -121,7 +123,7 @@ Partial Class Form1
         'StartBtn
         '
         Me.StartBtn.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.StartBtn.Location = New System.Drawing.Point(270, 213)
+        Me.StartBtn.Location = New System.Drawing.Point(294, 213)
         Me.StartBtn.Name = "StartBtn"
         Me.StartBtn.Size = New System.Drawing.Size(204, 37)
         Me.StartBtn.TabIndex = 8
@@ -143,7 +145,7 @@ Partial Class Form1
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ProgressBar1.Location = New System.Drawing.Point(15, 271)
         Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(472, 23)
+        Me.ProgressBar1.Size = New System.Drawing.Size(496, 23)
         Me.ProgressBar1.Step = 1
         Me.ProgressBar1.TabIndex = 10
         '
@@ -160,7 +162,7 @@ Partial Class Form1
         '
         Me.Label6.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(459, 327)
+        Me.Label6.Location = New System.Drawing.Point(483, 327)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(28, 13)
         Me.Label6.TabIndex = 12
@@ -177,17 +179,14 @@ Partial Class Form1
         '
         'BitrateNumberBox
         '
-        Me.BitrateNumberBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.BitrateNumberBox.Location = New System.Drawing.Point(15, 191)
         Me.BitrateNumberBox.Maximum = New Decimal(New Integer() {320, 0, 0, 0})
         Me.BitrateNumberBox.Name = "BitrateNumberBox"
-        Me.BitrateNumberBox.Size = New System.Drawing.Size(135, 20)
+        Me.BitrateNumberBox.Size = New System.Drawing.Size(159, 20)
         Me.BitrateNumberBox.TabIndex = 15
         '
         'enableMultithreading
         '
-        Me.enableMultithreading.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.enableMultithreading.AutoSize = True
         Me.enableMultithreading.Location = New System.Drawing.Point(15, 217)
         Me.enableMultithreading.Name = "enableMultithreading"
@@ -198,11 +197,13 @@ Partial Class Form1
         '
         'GroupBox1
         '
+        Me.GroupBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox1.Controls.Add(Me.libshine)
         Me.GroupBox1.Controls.Add(Me.libmp3lame)
         Me.GroupBox1.Location = New System.Drawing.Point(15, 94)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(239, 65)
+        Me.GroupBox1.Size = New System.Drawing.Size(263, 65)
         Me.GroupBox1.TabIndex = 17
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "MP3 Encoder Library"
@@ -233,22 +234,34 @@ Partial Class Form1
         '
         'GroupBox2
         '
+        Me.GroupBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox2.Controls.Add(Me.Help)
         Me.GroupBox2.Controls.Add(Me.compression_level)
         Me.GroupBox2.Controls.Add(Me.Label8)
         Me.GroupBox2.Controls.Add(Me.q)
         Me.GroupBox2.Controls.Add(Me.useVBR)
         Me.GroupBox2.Controls.Add(Me.Label7)
-        Me.GroupBox2.Location = New System.Drawing.Point(270, 97)
+        Me.GroupBox2.Location = New System.Drawing.Point(294, 97)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(204, 100)
+        Me.GroupBox2.Size = New System.Drawing.Size(204, 110)
         Me.GroupBox2.TabIndex = 18
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "libmp3lame options"
         '
+        'Help
+        '
+        Me.Help.AutoSize = True
+        Me.Help.Location = New System.Drawing.Point(169, 94)
+        Me.Help.Name = "Help"
+        Me.Help.Size = New System.Drawing.Size(29, 13)
+        Me.Help.TabIndex = 5
+        Me.Help.TabStop = True
+        Me.Help.Text = "Help"
+        '
         'compression_level
         '
         Me.compression_level.Enabled = False
-        Me.compression_level.Location = New System.Drawing.Point(108, 73)
+        Me.compression_level.Location = New System.Drawing.Point(108, 70)
         Me.compression_level.Name = "compression_level"
         Me.compression_level.Size = New System.Drawing.Size(53, 20)
         Me.compression_level.TabIndex = 4
@@ -256,7 +269,7 @@ Partial Class Form1
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(3, 75)
+        Me.Label8.Location = New System.Drawing.Point(3, 72)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(99, 13)
         Me.Label8.TabIndex = 3
@@ -290,11 +303,22 @@ Partial Class Form1
         Me.Label7.TabIndex = 0
         Me.Label7.Text = "Quality:"
         '
+        'overwrite
+        '
+        Me.overwrite.AutoSize = True
+        Me.overwrite.Location = New System.Drawing.Point(15, 234)
+        Me.overwrite.Name = "overwrite"
+        Me.overwrite.Size = New System.Drawing.Size(130, 17)
+        Me.overwrite.TabIndex = 19
+        Me.overwrite.Text = "Overwrite existing files"
+        Me.overwrite.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(499, 358)
+        Me.ClientSize = New System.Drawing.Size(523, 358)
+        Me.Controls.Add(Me.overwrite)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.enableMultithreading)
@@ -351,4 +375,6 @@ End Sub
     Friend WithEvents q As NumericUpDown
     Friend WithEvents useVBR As CheckBox
     Friend WithEvents Label7 As Label
+    Friend WithEvents Help As LinkLabel
+    Friend WithEvents overwrite As CheckBox
 End Class
