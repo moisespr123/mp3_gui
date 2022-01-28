@@ -127,9 +127,9 @@
             ffmpegProcessInfo.Arguments = "-i """ + Input_File + """ -c:a libshine -b:a " & Bitrate & "K  """ + Output_File + """ -y"
         ElseIf My.Settings.libmp3lame Then
             If Not My.Settings.useVBR Then
-                ffmpegProcessInfo.Arguments = "-i """ + Input_File + """ -c:a libmp3lame -b:a " & Bitrate & "K  """ + Output_File + """ -y"
+                ffmpegProcessInfo.Arguments = "-i """ + Input_File + """ -c:a libmp3lame -compression_level " + My.Settings.compression_level.ToString() + " -b:a " + Bitrate + "K """ + Output_File + """ -y"
             Else
-                ffmpegProcessInfo.Arguments = "-i """ + Input_File + """ -c:a libmp3lame -q " & My.Settings.q.ToString() & " -compression_level " & My.Settings.compression_level.ToString() & " """ + Output_File + """ -y"
+                ffmpegProcessInfo.Arguments = "-i """ + Input_File + """ -c:a libmp3lame -q " + My.Settings.q.ToString() + " -compression_level " & My.Settings.compression_level.ToString() & " """ + Output_File + """ -y"
             End If
         End If
         ffmpegProcessInfo.CreateNoWindow = True
@@ -239,10 +239,8 @@
         My.Settings.Save()
         If useVBR.Checked And useVBR.Enabled Then
             q.Enabled = True
-            compression_level.Enabled = True
         Else
             q.Enabled = False
-            compression_level.Enabled = False
         End If
     End Sub
 
