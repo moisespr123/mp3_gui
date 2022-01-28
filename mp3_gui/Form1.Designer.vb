@@ -276,6 +276,7 @@ Partial Class Form1
         '
         'q
         '
+        Me.q.Enabled = False
         Me.q.Location = New System.Drawing.Point(108, 42)
         Me.q.Name = "q"
         Me.q.Size = New System.Drawing.Size(53, 20)

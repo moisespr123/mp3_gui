@@ -165,6 +165,11 @@
                 libmp3lame.Checked = True
             End If
         End If
+        If libshine.Enabled And Not libmp3lame.Enabled Then
+            libshine.Checked = True
+        ElseIf libmp3lame.Enabled And Not libshine.Enabled Then
+            libmp3lame.Checked = True
+        End If
         useVBR.Checked = My.Settings.useVBR
         q.Value = My.Settings.q
         compression_level.Value = My.Settings.compression_level
@@ -252,6 +257,7 @@
 
     Private Sub libshine_CheckedChanged(sender As Object, e As EventArgs) Handles libshine.CheckedChanged
         My.Settings.libshine = libshine.Checked
+        libmp3lameOptions.Enabled = Not libshine.Checked
         My.Settings.Save()
     End Sub
 
