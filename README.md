@@ -7,7 +7,8 @@ You need ffmpeg copied to the location where you have this software or added to 
 
 Ffmpeg needs to be compiled with support for either libshine or libmp3lame. Both are preferred to enable both GUI encoder options.
 
-[MP3 GUI Guide/Help](https://moisescardona.me/mp3-gui-help/)
+* [MP3 GUI Guide/Help](https://moisescardona.me/mp3-gui-help/)
+* [Downloading ffmpeg](https://moisescardona.me/downloading-ffmpeg-for-use-with-my-media-tools-updated-guide/)
 
 
 Enjoy!
